@@ -21,7 +21,7 @@ class Viewer extends Component {
 
   renderEvent = (event) => {
     if(!event) return null;
-    const { title, dateAndTime } = event;
+    const { title, dateAndTime, mapLocation } = event;
     const styles = {
       title: {
         fontWeight: 'bold',
@@ -36,7 +36,7 @@ class Viewer extends Component {
         <CardHeader
           title={title}
           titleStyle={styles.title}
-          subtitle={dateAndTime}
+          subtitle={`${mapLocation} at ${dateAndTime}`}
           subtitleStyle={styles.subtitle}
         />
       </Card>
@@ -51,7 +51,7 @@ class Viewer extends Component {
   currentStory = () => this.props.stories[this.props.match.params.storyId];
 
   next = () => {
-    if (this.state.currentEventIndex < this.state.numberOfEvents) {
+    if (this.state.currentEventIndex < this.state.numberOfEvents - 1) {
       this.setState({
         ...this.state,
         currentEventIndex: this.state.currentEventIndex + 1,
@@ -84,7 +84,7 @@ class Viewer extends Component {
                    disabled={this.state.currentEventIndex > 0 ? false : true}
                    label="Prev"/>
                  <RaisedButton onClick={this.next}
-                   disabled={this.state.currentEventIndex < this.state.numberOfEvents ? false : true}
+                   disabled={this.state.currentEventIndex < this.state.numberOfEvents - 1? false : true}
                    label="Next"/>
               </div>
               {this.renderEvent(event)}
