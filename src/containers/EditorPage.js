@@ -6,19 +6,17 @@ import { withRouter } from 'react-router';
 
 import Map from '../components/Map';
 import EventInfo from '../components/EventInfo';
-import TimeLine from '../components/TimeLine';
 
 class EditorPage extends Component {
 
- state = {
+  state = {
     currentEventIndex: 0,
     showPrev: false,
     showNext: true,
     coordinates: {},
-    times: []
   }
 
- constructor (props) {
+  constructor (props) {
     super(props);
     this.props.fetchSingleStory(props.computedMatch.params.storyId);
   }
@@ -27,17 +25,9 @@ class EditorPage extends Component {
     if (nextProps.story.events && nextProps.story.events.length > 1) this.setState({ showNext:true });
   }
 
-  componentWillMount = () => {
-    const times = [];
-    this.props.story.events.map(event => {
-      times.push(event.startTime)
-    })
-    this.setState({times})
-  }
-
   newEvent = () => ({
     title: '',
-    startTime: '00:00',
+    index: this.state.currentEventIndex ? this.state.currentEventIndex+1 : 0,
     mapLocation: '',
     dateAndTime: '',
     attachments: []
@@ -51,7 +41,7 @@ class EditorPage extends Component {
       return;
     }
     if (!event.location.lng || !event.location.lat) {
-      this.props.showError('Please provide geo coordinates for your event (click on map)');
+      this.props.showError('Please provide geo-coordinates for your event (click on the map)');
       return;
     }
     this.props.editEvent(event, storyId);
@@ -59,7 +49,7 @@ class EditorPage extends Component {
     this.goNext();
   }
 
- onEventDelete = (eventId) => {
+  onEventDelete = (eventId) => {
     const storyId = this.props.story._id;
     this.props.deleteEvent(storyId, eventId);
   }
@@ -88,6 +78,7 @@ class EditorPage extends Component {
   }
 
   renderEventInfo () {
+    //TODO how could it possibly be a fucking string?
     if(!this.props.story.events || typeof this.props.story.events[0] === 'string') return null;
 
     const currentEvent = this.props.story.events[this.state.currentEventIndex]
@@ -107,13 +98,6 @@ class EditorPage extends Component {
         goPrev={this.goPrev}
       />
     )
-  }
-
-  matched = (match) => {
-    this.setState({
-      currentEventIndex: this.props.story.events
-        .indexOf(this.props.story.events.find(event => match === event.startTime))
-    })
   }
 
   render () {

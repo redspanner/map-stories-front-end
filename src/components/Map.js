@@ -9,7 +9,10 @@ class Map extends Component {
       type: "FeatureCollection",
       features: [{
         type: "Feature",
-        properties: {},
+        properties: {
+          "title": "Hannah is here",
+          "icon": "monument"
+        },
         geometry: {
           type: "Point",
           coordinates: [
