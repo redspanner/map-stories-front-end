@@ -42,7 +42,7 @@ class StoryListItem extends Component {
     return (
       <FlatButton
         label='EDIT'
-        rippleColor="purple"
+        rippleColor="rippleColor"
         primary={true}
         href={`/me/editstory/${this.props.story._id}`}
       />
@@ -55,13 +55,13 @@ class StoryListItem extends Component {
         label="Cancel"
         primary={true}
         onClick={this.closeDeleteDialog}
-        rippleColor="purple"
+        rippleColor="rippleColor"
       />,
       <FlatButton
         label="Delete"
         primary={true}
         onClick={this.deleteStoryConfirm}
-        rippleColor="purple"
+        rippleColor="rippleColor"
       />,
     ];
     return (
@@ -72,7 +72,7 @@ class StoryListItem extends Component {
             e.preventDefault();
             this.setState({openDelete: true});;
           }}
-          rippleColor="purple"
+          rippleColor="rippleColor"
           primary={true}
           >
           <Dialog
@@ -98,13 +98,13 @@ class StoryListItem extends Component {
         label="Cancel"
         primary={true}
         onClick={this.closePublishDialog}
-        rippleColor="purple"
+        rippleColor="rippleColor"
       />,
       <FlatButton
         label="Confirm"
         primary={true}
         onClick={this.publishStoryConfirm}
-        rippleColor="purple"
+        rippleColor="rippleColor"
       />,
     ];
     return (
@@ -114,7 +114,7 @@ class StoryListItem extends Component {
           e.preventDefault();
           this.setState({openPublish: true});;
         }}
-        rippleColor="purple"
+        rippleColor="rippleColor"
         primary={true}
         >
         <Dialog

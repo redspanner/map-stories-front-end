@@ -36,7 +36,7 @@ class Viewer extends Component {
         <CardHeader
           title={title}
           titleStyle={styles.title}
-          subtitle={`${mapLocation} at ${dateAndTime}`}
+          subtitle={dateAndTime ? `${mapLocation} at ${dateAndTime}` : mapLocation}
           subtitleStyle={styles.subtitle}
         />
       </Card>

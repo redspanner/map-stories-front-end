@@ -19,10 +19,6 @@
   float: right;
 }
 
-.nextPrev {
-  margin-top: 0px;
-}
-
 .EventInfoContainer {
   display: flex;
   max-width: 500px;
