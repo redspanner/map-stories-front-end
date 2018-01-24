@@ -16,67 +16,6 @@ import Divider from 'material-ui/Divider';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import LinearProgress from 'material-ui/LinearProgress';
-// import AWS from 'aws-sdk';
-
-// import Credentials from '../credentials';
-
-// const albumBucketName = 'map-story-photos';
-// const bucketRegion = 'eu-west-2';
-// const IdentityPoolId = 'eu-west-2_BdiEgKqXz';
-
-// AWS.config.update({
-//   region: bucketRegion,
-//   accessKeyId: Credentials.AWS_ACCESS_KEY_ID,
-//   secretAccessKey: Credentials.AWS_ACCESS_KEY_SECRET,
-// });
-//
-// const s3 = new AWS.S3();
-
-// s3.createBucket({Bucket:albumBucketName}, (err,data)=> {
-//   if (err) {
-//     console.log(err);
-//   } else {
-//     const params = {Bucket: albumBucketName, Key:'5', Body: 'Hello!'};
-//
-//     s3.putObject(params, (err, data) => {
-//       if (err) {
-//         console.log(err)
-//       } else {
-//         console.log("Successfully uploaded data to myBucket/myKey");
-//       }
-//     })
-//   }
-// })
-//
-// s3.listBuckets({}, (err, data) => {
-//   if (err) console.error(err);
-//   else console.log(data);
-// })
-
-// var myCredentials = new AWS.CognitoIdentityCredentials({IdentityPoolId:IdentityPoolId});
-// var myConfig = new AWS.Config({
-//   credentials: myCredentials,
-//   region: 'eu-west-2'
-// });
-//
-// const s3 = new AWS.S3({
-//   apiVersion: '2006-03-01',
-//   params: {Bucket: albumBucketName}
-// });
-//
-// const params = {Bucket:albumBucketName, Body:'Hello', Key:'1'};
-// s3.putObject(params, (err, data) => {
-//   if (err) {
-//     console.log(err);
-//   } else {
-//     console.log("Succesful upload");
-//   }
-// })
-
-// console.log(s3.listObjects());
-// const obj = s3.bucket(albumBucketName).object("hi")
-// console.log("onj", obj);
-// console.log("where am i?", s3.getBucketLocation());
 
 class EventInfo extends Component {
   state = {
