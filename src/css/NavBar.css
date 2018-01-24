@@ -3,11 +3,11 @@
   justify-content: space-between;
 }
 
-
 .LoginButton {
   display: flex;
-  background-color: #4c69ba;
+  background-color: #3b5998;
   border: none;
+  min-height: 30px;
   border-radius: 3px;
   font-size: 3em;
   cursor: pointer;
@@ -15,7 +15,7 @@
 }
 
 .LoginButton:hover {
-  background-color: #3b5998;
+  background-color: #8b9dc3;
 }
 
 .LoggedInActions {

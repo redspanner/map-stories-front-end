@@ -1,5 +1,5 @@
 .material-icons.md-36 { font-size: 36px; }
-.material-icons.purple { color: #673AB7 ; }
+.material-icons.purple { color: #8d9dad ; }
 .Viewer {
   display: flex;
   flex: 1;
@@ -16,7 +16,6 @@
   background: white;
   border: none;
 }
-
 
 .MapViewer {
   flex: 1;
@@ -49,6 +48,21 @@
   margin: 2em 2em;
   position: relative;
   z-index: 2;
+}
+
+.ButtonContainer {
+  display: flex;
+  max-width: 400px;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 1em 0;
+  position: relative;
+  z-index: 2;
+}
+
+.ButtonContainer * {
+  width: 180px;
+  margin: 0;
 }
 
 .EventCard {

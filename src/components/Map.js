@@ -74,11 +74,12 @@ class Map extends Component {
       });
 
       this.map.addLayer({
-        id: 'purpleCircle',
+        id: 'blackCircle',
         type: 'circle',
         paint: {
           'circle-radius': 8,
-          'circle-color': 'purple'
+          'circle-color': '#f44242',
+          'circle-opacity': 0.75,
         },
         source: 'marker',
       });

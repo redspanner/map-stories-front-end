@@ -9,10 +9,7 @@ import Main from '../containers/Main';
 
 const muiTheme = getMuiTheme({
   palette: {
-    primary1Color: '#673AB7',
-  },
-  menuItem: {
-    selectedTextColor: '#673AB7',
+    primary1Color: '#5970A1',
   },
 });
 

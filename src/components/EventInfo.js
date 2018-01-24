@@ -20,7 +20,6 @@ import LinearProgress from 'material-ui/LinearProgress';
 class EventInfo extends Component {
   state = {
     eventInfo: {
-
     },
     attachments: [],
     uploadState: {
@@ -34,7 +33,6 @@ class EventInfo extends Component {
     if (props.event) {
       this.state.eventInfo = {
         title: props.event.title || '',
-        startTime: props.event.startTime || '',
         mapLocation: props.event.mapLocation || '',
         dateAndTime: props.event.dateAndTime || '',
       }
@@ -47,7 +45,6 @@ class EventInfo extends Component {
       this.setState({
         eventInfo: {
           title: nextProps.event.title || '',
-          startTime: nextProps.event.startTime || '',
           mapLocation: nextProps.event.mapLocation || '',
           dateAndTime: nextProps.event.dateAndTime || '',
         },
@@ -184,23 +181,17 @@ class EventInfo extends Component {
   }
 
   saveEvent = () => {
-    if (/^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$/.test(this.state.eventInfo.startTime)) {
-      const eventInfo = {
-        title: this.state.eventInfo.title,
-        startTime: this.state.eventInfo.startTime,
-        mapLocation: this.state.eventInfo.mapLocation,
-        dateAndTime: this.state.eventInfo.dateAndTime,
-        attachments: this.state.attachments,
-      }
-      if (this.props.event._id) eventInfo._id = this.props.event._id
-      this.props.onEventEdit(eventInfo);
-      console.log(this.props.onEventEdit);
-      this.setState({
-        attachments: []
-      })
-    } else {
-      this.props.showError('Please supply a valid start time in format HH:MM:SS')
+    const eventInfo = {
+      title: this.state.eventInfo.title,
+      mapLocation: this.state.eventInfo.mapLocation,
+      dateAndTime: this.state.eventInfo.dateAndTime,
+      attachments: this.state.attachments,
     }
+    if (this.props.event._id) eventInfo._id = this.props.event._id
+    this.props.onEventEdit(eventInfo);
+    this.setState({
+      attachments: []
+    })
   }
 
   deleteEvent = () => {
@@ -438,7 +429,6 @@ class EventInfo extends Component {
     if(!this.state.attachments) return null;
 
     const attachments = this.state.attachments.map((el, index) => {
-      let attachmentType = '';
       return (
         <div className="AddAttachment" key={index}>
           <SelectField
@@ -446,8 +436,7 @@ class EventInfo extends Component {
             value={el.type}
             onChange={(event, i, value) => this.changeAttachmentProperty(index, 'type', value)}
             placeholder='Select a type'
-            fullWidth={true}
-            ref={input => attachmentType = input}>
+            fullWidth={true}>
             <MenuItem value={''} primaryText="" />
             <MenuItem value={'text'} primaryText="Text" />
             <MenuItem value={'link'} primaryText="Link" />
@@ -506,14 +495,6 @@ class EventInfo extends Component {
             name="title"
             onChange={this.handleTextChange}
             value={this.state.eventInfo.title}
-          /><br />
-          <TextField
-            hintText="HH:MM:SS"
-            floatingLabelText="Time for event to start"
-            fullWidth
-            name="startTime"
-            onChange={this.handleTextChange}
-            value={this.state.eventInfo.startTime}
           /><br />
           <TextField hintText="Map Location"
             floatingLabelText="Map Location"
