@@ -4,14 +4,14 @@ import { connect } from 'react-redux';
 import { fetchSingleStory, showError } from '../actions';
 import { Card, CardHeader } from 'material-ui/Card';
 import EventCard from '../components/EventCard';
+import RaisedButton from 'material-ui/RaisedButton';
 import Map from '../components/Map';
-import TimeLine from '../components/TimeLine';
 
 class Viewer extends Component {
 
   state = {
-    time: '',
     currentEventIndex: 0,
+    numberOfEvents: this.props.stories[this.props.match.params.storyId].events.length,
   }
 
   componentWillMount() {
@@ -21,7 +21,7 @@ class Viewer extends Component {
 
   renderEvent = (event) => {
     if(!event) return null;
-    const { title, dateAndTime } = event;
+    const { title, dateAndTime, mapLocation } = event;
     const styles = {
       title: {
         fontWeight: 'bold',
@@ -37,7 +37,7 @@ class Viewer extends Component {
         <CardHeader
           title={title}
           titleStyle={styles.title}
-          subtitle={dateAndTime}
+          subtitle={`${mapLocation} at ${dateAndTime}`}
           subtitleStyle={styles.subtitle}
         />
       </Card>
@@ -49,23 +49,24 @@ class Viewer extends Component {
     return attachments.map((attachment, i) => <EventCard key={i} data={{attachments: [attachment]}} expanded />);
   }
 
-  eventTimes =() => {
-    let startTimes = []
-    const { storyId } = this.props.match.params
-    this.props.stories[storyId].events.forEach(story => {
-      startTimes.push(story.startTime);
-    })
-    return startTimes;
-  }
+  currentStory = () => this.props.stories[this.props.match.params.storyId];
 
-  currentStory = () => (this.props.stories[this.props.match.params.storyId]);
-
-  onTimelineChangeEvent = (match) => {
-    this.setState({
-      currentEventIndex: this.currentStory().events
-        .indexOf(this.currentStory().events.find(event => match === event.startTime))
-    })
-  }
+  next = () => {
+    if (this.state.currentEventIndex < this.state.numberOfEvents - 1) {
+      this.setState({
+        ...this.state,
+        currentEventIndex: this.state.currentEventIndex + 1,
+      })
+    } else return;
+  };
+  prev = () => {
+    if (this.state.currentEventIndex > 0) {
+      this.setState({
+        ...this.state,
+        currentEventIndex: this.state.currentEventIndex - 1,
+      })
+    } else return;
+  };
 
   render() {
     const story = this.currentStory();
@@ -79,13 +80,20 @@ class Viewer extends Component {
         <div className="MapViewer">
           <div className="EventsContainerWrapper">
             <div className="EventsContainer">
+              <div className="ButtonContainer">
+                 <RaisedButton onClick={this.prev}
+                   disabled={this.state.currentEventIndex > 0 ? false : true}
+                   label="Prev"/>
+                 <RaisedButton onClick={this.next}
+                   disabled={this.state.currentEventIndex < this.state.numberOfEvents - 1? false : true}
+                   label="Next"/>
+              </div>
               {this.renderEvent(event)}
               {event !== undefined ? this.renderAttachments(event.attachments) : null}
             </div>
           </div>
           <Map marker={marker}/>
         </div>
-        <TimeLine events={story.events} match={this.onTimelineChangeEvent} autoplay />
       </div>
     );
   }
