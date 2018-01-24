@@ -34,7 +34,6 @@ export default store => next => action => {
 
 
  const { endpoint, schema, types, method, onSuccess } = callAPI;
-
  let data;
   if (callAPI.data) data = JSON.stringify(callAPI.data);
 

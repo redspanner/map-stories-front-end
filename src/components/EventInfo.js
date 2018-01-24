@@ -16,24 +16,6 @@ import Divider from 'material-ui/Divider';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import LinearProgress from 'material-ui/LinearProgress';
-import AWS from 'aws-sdk';
-
-const albumBucketName = 'map-story';
-const bucketRegion = 'eu-west-1';
-const IdentityPoolId = 'eu-west-1:888bfed2-3d00-4100-a4d9-8011c6df4837';
-
-AWS.config.update({
-  region: bucketRegion,
-  credentials: new AWS.CognitoIdentityCredentials({
-    IdentityPoolId: IdentityPoolId
-  })
-});
-
-const s3 = new AWS.S3({
-  apiVersion: '2006-03-01',
-  params: {Bucket: albumBucketName}
-});
-
 
 class EventInfo extends Component {
   state = {
@@ -118,33 +100,39 @@ class EventInfo extends Component {
     const fileName = uuid() + '.' + fileFormat;
     const albumFileKey = 'event-file/';
     const fileKey = albumFileKey + fileName;
-    s3.upload({
-      Key: fileKey,
-      Body: file,
-      ACL: 'public-read'
-    }, (err, data) => {
-      if (err) {
-        this.props.showError('There was an error uploading your file');
-        return;
+
+    fetch(`http://localhost:4000/token/event/${this.props.event._id}`)
+    .then(data => data.json())
+    .then(data => {
+
+      const body = {
+        'bucket': data.fields.bucket,
+        'Policy': data.fields.Policy,
+        'X-Amz-Algorithm': data.fields['X-Amz-Algorithm'],
+        'X-Amz-Credential': data.fields['X-Amz-Credential'],
+        'X-Amz-Date': data.fields['X-Amz-Date'],
+        'X-Amz-Signature': data.fields['X-Amz-Signature'],
+        'key':`event-${this.props.event._id}/testfile.jpg`,
+        'file':file
       }
-      this.setState({
-        uploadState: {
-          uploading: false,
-          index
-        }
-      });
-      this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , data.Location);
-    })
-    .on('httpUploadProgress', (progress) => {
-      this.setState({
-        uploadState: {
-        uploading: true,
-        index
-        },
-        progressLoaded: progress.loaded,
-        progressTotal: progress.total
+
+      const formBody = new FormData();
+
+      Object.keys(body).forEach(elem => {
+        formBody.append(elem, body[elem])
       })
-    });
+      const params = {
+        method:'POST',
+        body:formBody
+      }
+      return params
+      })
+      .then(params => {
+        fetch("https://s3.eu-west-2.amazonaws.com/map-story-photos", params, (error) => {
+          if (error) throw error;
+      })
+    })
+
   }
 
   toggleDisable = (index) => {
@@ -548,12 +536,13 @@ class EventInfo extends Component {
 
 
 const mapStateToProps = (state, ownProps) => ({
-  // id: ownProps.computedMatch.params.storyId
+  // id: ownProps.computedMatch.params.storyId,
   // story: state.entities.stories[ownProps.computedMatch.params.storyId],
 });
 
 const mapDispatchToProps = (dispatch) => ({
   showError: (errorMessage) => dispatch(showError(errorMessage)),
+  // getToken: () => dispatch(getToken())
   // editStory: (data) => dispatch(editStory(data))
 
 });
