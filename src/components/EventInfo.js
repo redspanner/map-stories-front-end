@@ -152,7 +152,7 @@ class EventInfo extends Component {
         if ((/\.(gif|jpg|jpeg|tiff|png)$/i).test(this.eventURLField.input.value)) {
           this.changeAttachmentProperty(index, type === 'image' ? 'imageUrl' : 'url' , this.eventURLField.input.value);
         } else {
-          this.props.showError('put valid image link');
+          this.props.showError('The image link is invalid');
         }
         break;
         case 'video':
